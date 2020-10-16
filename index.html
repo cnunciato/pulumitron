@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            require("../bin/renderer");
+        });
+    </script>
+    <title>Pulumi.app</title>
+</head>
+<body class="p-8 text-sm bg-gray-200">
+    <h1 class="text-xl font-bold my-4 mb-8">Hey Look, it's a Pulumi.app! 🎉</h1>
+
+    <h3 class="my-4 font-bold">Let's deploy a static website.</h3>
+    <div class="flex items-center my-4">
+        <input id="project-name" type="text" class="border border-gray-200 p-2 rounded w-64" placeholder="my-website">
+    </div>
+
+    <h3 class="my-4 font-bold">Stack name?</h3>
+    <div class="flex items-center my-4">
+        <input id="stack-name" type="text" class="border border-gray-200 p-2 rounded w-64" placeholder="dev">
+    </div>
+
+    <h3 class="my-4 font-bold">Where's the docroot?</h3>
+    <div class="flex items-center my-4">
+        <input id="source-path" type="text" class="border border-gray-200 p-2 rounded w-64" placeholder="/path/to/website/root">
+        <button id="browse-button" type="submit" class="p-2 rounded bg-gray-400 hover:bg-gray-500 text-black hover:text-gray-100 ml-2 px-4">Browse...</button>
+    </div>
+
+    <h3 class="my-4 font-bold">Deploy to a subdomain?</h3>
+    <div class="flex items-center my-4">
+        <input id="subdomain" type="text" class="border border-gray-200 p-2 rounded w-64" placeholder="somedomain">
+        <span class="ml-1">.nunciato.org</span>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="flex items-center my-8">
+        <button id="preview-button" class="p-2 w-32 rounded bg-purple-800 hover:bg-purple-900 text-white font-bold">Preview</button>
+        <button id="update-button" class="p-2 mx-4 w-32 rounded bg-purple-800 hover:bg-purple-900 text-white font-bold">Update</button>
+        <button id="destroy-button" class="p-2 w-32 rounded bg-purple-800 hover:bg-purple-900 text-white font-bold">Destroy</button>
+    </div>
+
+    <!-- Output -->
+    <div id="output-field" class="my-4 hidden h-64 my-4 font-mono whitespace-pre text-xs bg-gray-900 text-purple-100 p-2 w-full overflow-auto w-32 rounded bg-gray-100"></div>
+
+    <!-- Result -->
+    <div id="result-field" class="hidden my-4">
+        <a id="result-link" class="text-purple-900" target="_new"></a>
+    </div>
+</body>
+</html>

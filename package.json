@@ -1,0 +1,24 @@
+{
+    "name": "pulumitron",
+    "version": "0.0.1",
+    "description": "It's Pulumi... in Electron!",
+    "author": "Christian Nunciato <chris@nunciato.org>",
+        "license": "ISC",
+    "main": "bin/index.js",
+    "scripts": {
+        "start": "tsc && electron bin",
+        "build": "tsc && electron-packager bin"
+    },
+    "dependencies": {
+        "@pulumi/aws": "^3.7.0",
+        "@pulumi/pulumi": "^2.12.0",
+        "@types/glob": "^7.1.3",
+        "@types/mime": "^2.0.3",
+        "@types/node": "^14.11.8",
+        "electron": "^10.1.3",
+        "electron-packager": "^15.1.0",
+        "glob": "^7.1.6",
+        "mime": "^2.4.6",
+        "typescript": "^4.0.3"
+    }
+}
