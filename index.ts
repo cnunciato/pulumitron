@@ -40,7 +40,7 @@ export async function getDocroot(): Promise<string[]> {
 export type DeployResult = automation.PreviewResult | automation.UpResult | automation.DestroyResult;
 export type DeployKind = "preview" | "update" | "destroy";
 
-async function bucketWebsite(sourcePath: string, subdomain?: string) {
+async function bucketWebsite(sourcePath: string) {
 
     // Make a website bucket.
     const bucket = new aws.s3.Bucket("bucket", {
@@ -69,12 +69,12 @@ async function bucketWebsite(sourcePath: string, subdomain?: string) {
     };
 }
 
-export async function deployBucketWebsite(projectName: string, stackName: string, sourcePath: string, subdomain: string, action: DeployKind, onOutput: (out: string) => void): Promise<DeployResult | undefined> {
+export async function deployBucketWebsite(projectName: string, stackName: string, sourcePath: string, action: DeployKind, onOutput: (out: string) => void): Promise<DeployResult | undefined> {
 
     const stack = await automation.LocalWorkspace.createOrSelectStack({
         stackName,
         projectName,
-        program: async () => await bucketWebsite(sourcePath, subdomain),
+        program: async () => await bucketWebsite(sourcePath),
     });
 
     await stack.workspace.installPlugin("aws", "v3.6.1");

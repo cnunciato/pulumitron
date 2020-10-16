@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "It's Pulumi... in Electron!",
     "author": "Christian Nunciato <chris@nunciato.org>",
-        "license": "ISC",
+    "license": "ISC",
     "main": "bin/index.js",
     "scripts": {
         "start": "tsc && electron bin",

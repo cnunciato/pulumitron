@@ -7,7 +7,6 @@ const projectNameField = document.querySelector("#project-name") as HTMLInputEle
 const stackNameField = document.querySelector("#stack-name") as HTMLInputElement;
 const sourcePathField = document.querySelector("#source-path") as HTMLInputElement;
 const browseButton = document.querySelector("#browse-button") as HTMLButtonElement;
-const subdomainField = document.querySelector("#subdomain") as HTMLInputElement;
 const previewButton = document.querySelector("#preview-button") as HTMLButtonElement;
 const updateButton = document.querySelector("#update-button") as HTMLButtonElement;
 const destroyButton = document.querySelector("#destroy-button") as HTMLButtonElement;
@@ -18,14 +17,13 @@ const resultLink = document.querySelector("#result-link") as HTMLAnchorElement;
 let projectName: string;
 let stackName: string;
 let sourcePath: string;
-let subdomain: string;
 
 if (browseButton && previewButton && updateButton && destroyButton) {
 
     browseButton.addEventListener("click", async (event) => {
         const paths = await getDocroot();
         sourcePath = paths[0];
-        sourcePathField.value = sourcePath;
+        sourcePathField.value = sourcePath || "";
     });
 
     previewButton.addEventListener("click", async () => {
@@ -77,9 +75,8 @@ async function deploy(action: DeployKind): Promise<DeployResult | undefined> {
     stackName = stackNameField.value;
     stackName = stackNameField.value;
     sourcePath = sourcePathField.value;
-    subdomain = subdomainField.value;
 
-    if (!projectName || !stackName || !sourcePath || !subdomain) {
+    if (!projectName || !stackName || !sourcePath) {
         alert("Required value missing.");
         return;
     }
@@ -90,7 +87,7 @@ async function deploy(action: DeployKind): Promise<DeployResult | undefined> {
     outputField.scrollTop = 0;
     outputField.textContent = "Running...\n";
 
-    return await deployBucketWebsite(projectName, stackName, sourcePath, subdomain, action, (out: string) => {
+    return await deployBucketWebsite(projectName, stackName, sourcePath, action, (out: string) => {
         outputField.textContent += out;
         outputField.scrollTop = outputField.scrollHeight;
     });
