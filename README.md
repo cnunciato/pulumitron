@@ -18,6 +18,8 @@ npm install     # to install this project's dependencies.
 npm start       # to run the Electron app.
 ```
 
+Give yourself a [project name](https://www.pulumi.com/docs/intro/concepts/project/), [stack name](https://www.pulumi.com/docs/intro/concepts/stack/), browse to your site root, and go. (The app deploys your site as an AWS S3 bucket.)
+
 [Many more automation API examples here](https://github.com/pulumi/automation-api-examples).
 
 Enjoy!
