@@ -4,6 +4,8 @@ It's [Pulumi](https://pulumi.com/) ... in [Electron](https://www.electronjs.org/
 
 A hackday project to experiment with Pulumi's automation API, which lets you run Pulumi programmatically in the language of your choice. Here, I'm using the TypeScript API to deploy and manage a static website on AWS with Pulumi and Electron.
 
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/274700/96325135-40d63780-0fda-11eb-9ebb-536b2e70f233.png">
+
 ## Prerequisites
 
 * [Install Pulumi](https://www.pulumi.com/docs/get-started/install/).
