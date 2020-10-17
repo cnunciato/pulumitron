@@ -1,5 +1,4 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
-export { PreviewResult, UpResult, DestroyResult } from "@pulumi/pulumi/x/automation";
 import * as pulumi from "@pulumi/pulumi";
 import * as automation from "@pulumi/pulumi/x/automation";
 import * as aws from "@pulumi/aws";
@@ -9,8 +8,8 @@ import * as fs from "fs";
 
 app.on("ready", () => {
     const win = new BrowserWindow({
-        width: 1440,
-        height: 900,
+        width: 620,
+        height: 846,
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
@@ -37,8 +36,11 @@ export async function getDocroot(): Promise<string[]> {
     return dir.filePaths;
 }
 
-export type DeployResult = automation.PreviewResult | automation.UpResult | automation.DestroyResult;
-export type DeployKind = "preview" | "update" | "destroy";
+export type DeployKind = "preview" | "update" | "destroy" | "remove";
+export interface DeployResult {
+    success: boolean;
+    result: automation.PreviewResult | automation.UpResult | automation.DestroyResult | void | Error;
+}
 
 async function bucketWebsite(sourcePath: string) {
 
@@ -65,11 +67,11 @@ async function bucketWebsite(sourcePath: string) {
 
     // Return the results.
     return {
-        websiteEndpoint: bucket.websiteEndpoint,
+        websiteEndpoint: pulumi.interpolate`http://${bucket.websiteEndpoint}`,
     };
 }
 
-export async function deployBucketWebsite(projectName: string, stackName: string, sourcePath: string, action: DeployKind, onOutput: (out: string) => void): Promise<DeployResult | undefined> {
+export async function deployBucketWebsite(projectName: string, stackName: string, sourcePath: string, action: DeployKind, onOutput: (out: string) => void): Promise<DeployResult> {
 
     const stack = await automation.LocalWorkspace.createOrSelectStack({
         stackName,
@@ -83,17 +85,35 @@ export async function deployBucketWebsite(projectName: string, stackName: string
 
     let result;
 
-    switch (action) {
-        case "preview":
-            result = await stack.preview();
-            break;
-        case "update":
-            result = await stack.up({ onOutput });
-            break;
-        case "destroy":
-            result = await stack.destroy({ onOutput });
-            break;
+    try {
+        switch (action) {
+            case "preview":
+                result = await stack.preview();
+                break;
+            case "update":
+                result = await stack.up({ onOutput });
+                break;
+            case "destroy":
+                result = await stack.destroy({ onOutput });
+                break;
+            case "remove":
+                await stack.destroy({ onOutput });
+                result = await stack.workspace.removeStack(stackName);
+                break;
+        }
+
+        return {
+            success: true,
+            result,
+        }
     }
+    catch (error) {
+        result = {
+            success: false,
+            result: error,
+        }
+    }
+
 
     return result;
 }
