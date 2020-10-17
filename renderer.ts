@@ -116,8 +116,8 @@ function setOutput(content: string, append?: boolean) {
 }
 
 function setResult(result: DeployResult, innerHTML: string) {
-    resultSuccess.classList.toggle("hidden", !result.success);
-    resultFailure.classList.toggle("hidden", result.success);
+    resultSuccess.classList.toggle("hidden", result.error !== undefined);
+    resultFailure.classList.toggle("hidden", result.error === undefined);
     setResultSpan(innerHTML);
 }
 

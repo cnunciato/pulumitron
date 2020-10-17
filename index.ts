@@ -38,8 +38,8 @@ export async function getDocroot(): Promise<string[]> {
 
 export type DeployKind = "preview" | "update" | "destroy" | "remove";
 export interface DeployResult {
-    success: boolean;
-    result: automation.PreviewResult | automation.UpResult | automation.DestroyResult | void | Error;
+    result?: automation.PreviewResult | automation.UpResult | automation.DestroyResult;
+    error?: Error;
 }
 
 async function bucketWebsite(sourcePath: string) {
@@ -98,22 +98,18 @@ export async function deployBucketWebsite(projectName: string, stackName: string
                 break;
             case "remove":
                 await stack.destroy({ onOutput });
-                result = await stack.workspace.removeStack(stackName);
+                await stack.workspace.removeStack(stackName);
+                result = undefined;
                 break;
         }
 
         return {
-            success: true,
             result,
         }
     }
     catch (error) {
-        result = {
-            success: false,
-            result: error,
+        return {
+            error,
         }
     }
-
-
-    return result;
 }
